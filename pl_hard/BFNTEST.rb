@@ -6,9 +6,17 @@ end
 
 code = input.join("")
 
-while code.include? "/*"
-	code.slice!(code.index('/*')-1..code.index('*/')+1)
+for i in 0..code.size-1
+	if code[i] == '/' && code[i+1] == '*'
+		for j in i+2..code.size-1
+			if code[j] == '*' && code[j+1] == '/'
+				code.slice!(i..j+1)
+				break
+			end
+		end
+	end
 end
+
 if code.include? "//"
 	arr = code.each_line.to_a
 	arr.map! { |line|
